@@ -90,11 +90,14 @@ function(ui_validate_assets files in_dir)
             set(found_build_json TRUE)
         elseif(base STREQUAL "version.json")
             set(found_version_json TRUE)
-        elseif(base MATCHES "^bundle.*\\.js$")
+        elseif(base MATCHES "^bundle.*\\.js$" OR f MATCHES "^_app/immutable/.*\\.js$")
+            # legacy UI: bundle[hash].js | SvelteKit UI: _app/immutable/**/*.js
             set(found_bundle_js TRUE)
-        elseif(base MATCHES "^bundle.*\\.css$")
+        elseif(base MATCHES "^bundle.*\\.css$" OR f MATCHES "^_app/immutable/.*\\.css$")
+            # legacy UI: bundle[hash].css | SvelteKit UI: _app/immutable/**/*.css
             set(found_bundle_css TRUE)
-        elseif(base MATCHES "^workbox.*\\.js$")
+        elseif(base MATCHES "^workbox.*\\.js$" OR base STREQUAL "service-worker.js")
+            # legacy UI: workbox[hash].js | SvelteKit UI: service-worker.js
             set(found_workbox_js TRUE)
         endif()
     endforeach()
